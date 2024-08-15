@@ -1,33 +1,40 @@
 name: Build & Release
-on: push
+on:
+  push:
+    tags:
+      - 'v*'
+
 permissions:
   contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           flutter-version: '3.x'
+
       - name: Get Flutter version
         run: flutter --version
+
       - name: Install dependencies
         run: flutter pub get
         working-directory: app
+
       - name: Build APKs
-        run: |
-          flutter build apk --release
-          flutter build apk --split-per-abi
+        run: flutter build apk --split-per-abi
         working-directory: app
-      - name: Extract version
-        id: extract_version
-        run: |
-          version=$(grep '^version: ' app/pubspec.yaml | cut -d ' ' -f 2 | cut -d '+' -f 1)
-          echo "VERSION=$version" >> $GITHUB_ENV
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
       - name: Rename APKs
         run: |
           cd app/build/app/outputs/flutter-apk
@@ -35,30 +42,10 @@ jobs:
           mv app-arm64-v8a-release.apk Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
           mv app-x86_64-release.apk Anx-Reader-${{ env.VERSION }}-x86_64.apk
           mv app-release.apk Anx-Reader-${{ env.VERSION }}-universal.apk
-      - name: Check if Tag Exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
-          fi
-      - name: Modify Tag
-        if: env.TAG_EXISTS == 'true'
-        id: modify_tag
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
-      - name: Create Tag
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git tag -a v${{ env.VERSION }} -m "Release v${{ env.VERSION }}"
-          git push origin v${{ env.VERSION }}
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.VERSION }}
           files: |
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-armeabi-v7a.apk
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
