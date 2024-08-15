@@ -1,0 +1,12 @@
+name: Build
+on: push
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          echo "Building..."
+          echo "Build complete."
