@@ -11,7 +11,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: app/pubspec.yaml
+          flutter-version: '3.x'
 
       - name: Get Flutter version
         run: flutter --version
@@ -51,7 +51,7 @@ jobs:
         run: |
           new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
           echo "VERSION=$new_version" >> $GITHUB_ENV
-          
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
