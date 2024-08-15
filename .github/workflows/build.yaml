@@ -12,6 +12,7 @@ jobs:
           channel: stable
           flutter-version-file: app/pubspec.yaml
       - run: flutter --version
+      - run: cd app
       - run: flutter pub get
       - run: flutter build apk
       - name: Upload APK
