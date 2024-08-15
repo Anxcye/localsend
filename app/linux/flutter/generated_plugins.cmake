@@ -3,16 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  desktop_drop
-  dynamic_color
-  file_selector_linux
-  gtk
-  pasteboard
-  screen_retriever
-  tray_manager
-  uri_content
-  url_launcher_linux
-  window_manager
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
