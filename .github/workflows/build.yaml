@@ -59,5 +59,4 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           tag: v${{ env.VERSION }}
-          token: ${{ secrets.TOKEN }}
 
