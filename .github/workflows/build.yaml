@@ -18,19 +18,21 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
         working-directory: app
-      - name: Build APK
-        run: flutter build apk
+      - name: Build APKs
+        run: flutter build apk --split-per-abi
         working-directory: app
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: Release
-          path: app/build/app/outputs/flutter-apk/app-release.apk
       - name: Extract version
         id: extract_version
         run: |
-          version=$(grep '^version: ' app/pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
+          version=$(grep '^version: ' app/pubspec.yaml | cut -d ' ' -f 2 | cut -d '+' -f 1)
           echo "VERSION=$version" >> $GITHUB_ENV
+      - name: Rename APKs
+        run: |
+          cd app/build/app/outputs/flutter-apk
+          mv app-armeabi-v7a-release.apk Anx-Reader-${{ env.VERSION }}-armeabi-v7a.apk
+          mv app-arm64-v8a-release.apk Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
+          mv app-x86_64-release.apk Anx-Reader-${{ env.VERSION }}-x86_64.apk
+          mv app-release.apk Anx-Reader-${{ env.VERSION }}-universal.apk
       - name: Check if Tag Exists
         id: check_tag
         run: |
@@ -55,5 +57,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.VERSION }}
-          files: app/build/app/outputs/flutter-apk/app-release.apk
+          files: |
+            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-armeabi-v7a.apk
+            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
+            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-x86_64.apk
+            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-universal.apk
           generate_release_notes: true
