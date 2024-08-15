@@ -8,36 +8,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           flutter-version: '3.x'
-
       - name: Get Flutter version
         run: flutter --version
-
       - name: Install dependencies
         run: flutter pub get
         working-directory: app
-
       - name: Build APK
         run: flutter build apk
         working-directory: app
-
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
           name: Release
           path: app/build/app/outputs/flutter-apk/app-release.apk
-
       - name: Extract version
         id: extract_version
         run: |
           version=$(grep '^version: ' app/pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
           echo "VERSION=$version" >> $GITHUB_ENV
-
       - name: Check if Tag Exists
         id: check_tag
         run: |
@@ -46,17 +39,21 @@ jobs:
           else
             echo "TAG_EXISTS=false" >> $GITHUB_ENV
           fi
-
       - name: Modify Tag
         if: env.TAG_EXISTS == 'true'
         id: modify_tag
         run: |
           new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
           echo "VERSION=$new_version" >> $GITHUB_ENV
-
+      - name: Create Tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -a v${{ env.VERSION }} -m "Release v${{ env.VERSION }}"
+          git push origin v${{ env.VERSION }}
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            ./build/app/outputs/flutter-apk/app-release.apk
-
+          tag_name: v${{ env.VERSION }}
+          files: app/build/app/outputs/flutter-apk/app-release.apk
+          generate_release_notes: true
