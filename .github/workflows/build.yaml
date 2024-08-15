@@ -28,7 +28,9 @@ jobs:
         working-directory: app
 
       - name: Build APKs
-        run: flutter build apk --split-per-abi
+        run: |
+        flutter build apk --release
+        flutter build apk --split-per-abi
         working-directory: app
 
       - name: Get version from tag
