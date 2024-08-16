@@ -43,13 +43,14 @@ jobs:
           mv app-x86_64-release.apk Anx-Reader-${{ env.VERSION }}-x86_64.apk
           mv app-release.apk Anx-Reader-${{ env.VERSION }}-universal.apk
 
-      - name: Read Changelog
-        id: changelog
+      - name: Extract release notes
+        id: extract_release_notes
         run: |
-          CHANGELOG_ENTRY=$(awk '/^## \[${{ env.VERSION }]/{flag=1; next} /^## /{flag=0} flag' CHANGELOG.md)
-          echo 'CHANGELOG<<EOF' >> $GITHUB_OUTPUT
-          echo "$CHANGELOG_ENTRY" >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          VERSION=${{ env.VERSION }}
+          CHANGELOG_CONTENT=$(sed -n "/## $VERSION/,/## /p" Changelog.md | sed '$d')
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -59,5 +60,5 @@ jobs:
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-x86_64.apk
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-universal.apk
-          body: ${{ steps.changelog.outputs.CHANGELOG }}
-          generate_release_notes: true
+          body: ${{ env.RELEASE_NOTES }}
+          generate_release_notes: false
