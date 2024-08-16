@@ -28,9 +28,7 @@ jobs:
         working-directory: app
 
       - name: Build APKs
-        run: |
-          flutter build apk --release
-          flutter build apk --split-per-abi
+        run: flutter build apk --split-per-abi
         working-directory: app
 
       - name: Get version from tag
@@ -45,6 +43,14 @@ jobs:
           mv app-x86_64-release.apk Anx-Reader-${{ env.VERSION }}-x86_64.apk
           mv app-release.apk Anx-Reader-${{ env.VERSION }}-universal.apk
 
+      - name: Read Changelog
+        id: changelog
+        run: |
+          CHANGELOG_ENTRY=$(awk '/^## \[${{ env.VERSION }]/{flag=1; next} /^## /{flag=0} flag' CHANGELOG.md)
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_ENTRY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -53,4 +59,6 @@ jobs:
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-x86_64.apk
             app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-universal.apk
+          body: |
+            ${{ steps.changelog.outputs.CHANGELOG }}
           generate_release_notes: true
