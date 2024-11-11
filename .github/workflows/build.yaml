@@ -22,37 +22,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          flutter-version: '3.x'
-
-      - name: Get Flutter version
-        run: flutter --version
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-          cache: 'gradle'
-          check-latest: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Decode Keystore  
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks        
-      
-      - name: Create key.properties  
-        run: |
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties    
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties    
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties    
-          echo "storeFile=keystore.jks" >> android/key.properties
-        
       - name: Setup for Windows
         if: matrix.platform == 'windows'
         uses: msys2/setup-msys2@v2
@@ -66,6 +35,40 @@ jobs:
         run: |
           echo "${{ runner.temp }}\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.x'
+
+      - name: Get Flutter version
+        run: flutter --version
+
+      - name: Setup Java
+        if: matrix.platform == 'android'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+          check-latest: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup Android signing
+        if: matrix.platform == 'android'
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks        
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties    
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties    
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties    
+          echo "storeFile=keystore.jks" >> android/key.properties
+
+      - name: Enable Windows build
+        if: matrix.platform == 'windows'
+        run: flutter config --enable-windows-desktop
+        
       - name: Build for platform
         run: |
           if [ "${{ matrix.platform }}" == "android" ]; then
@@ -103,6 +106,7 @@ jobs:
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
           echo "$CHANGELOG_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+        shell: bash
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
