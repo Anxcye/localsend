@@ -23,15 +23,21 @@ jobs:
       - name: Get Flutter version
         run: flutter --version
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+          check-latest: true
+
       - name: Install dependencies
         run: flutter pub get
-        working-directory: app
 
       - name: Build APKs
         run: |
           flutter build apk --release
           flutter build apk --split-per-abi
-        working-directory: app
 
       - name: Get version from tag
         id: get_version
@@ -39,7 +45,7 @@ jobs:
 
       - name: Rename APKs
         run: |
-          cd app/build/app/outputs/flutter-apk
+          cd build/app/outputs/flutter-apk
           mv app-armeabi-v7a-release.apk Anx-Reader-${{ env.VERSION }}-armeabi-v7a.apk
           mv app-arm64-v8a-release.apk Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
           mv app-x86_64-release.apk Anx-Reader-${{ env.VERSION }}-x86_64.apk
@@ -58,9 +64,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-armeabi-v7a.apk
-            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
-            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-x86_64.apk
-            app/build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-universal.apk
+            build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-armeabi-v7a.apk
+            build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
+            build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-x86_64.apk
+            build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-universal.apk
           body: ${{ env.RELEASE_NOTES }}
           generate_release_notes: false
