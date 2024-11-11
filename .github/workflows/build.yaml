@@ -93,8 +93,8 @@ jobs:
             mv app-x86_64-release.apk Anx-Reader-${{ env.VERSION }}-x86_64.apk
             mv app-release.apk Anx-Reader-${{ env.VERSION }}-universal.apk
           else
-            cd windows/runner/Release
-            7z a -tzip ../../Anx-Reader-${{ env.VERSION }}-windows.zip ./*
+            cd windows/x64/runner/Release
+            7z a -tzip ../../../Anx-Reader-${{ env.VERSION }}-windows.zip ./*
           fi
         shell: bash
 
