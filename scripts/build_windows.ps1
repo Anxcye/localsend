@@ -17,15 +17,15 @@ Remove-Item "D:\inno-result" -Force  -Recurse -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force -Path "D:\inno-result"
 
 7z a -tzip "D:\inno-result\app.zip" "D:\inno\*"
-echo "/////"
-Get-Content -Path ".\scripts\compile_windows_setup-inno.iss"
-echo "/////"
+
 Copy-Item "scripts\ChineseSimplified.isl" "$innoSetupDir\Languages\"
 Copy-Item "scripts\ChineseTraditional.isl" "$innoSetupDir\Languages\"
 & "$innoSetupDir\ISCC.exe" ".\scripts\compile_windows_setup-inno.iss"
 
 Copy-Item "D:\inno-result\app.exe" "build\windows\app.exe"
 Copy-Item "D:\inno-result\app.zip" "build\windows\app.zip"
+ls "D:\inno-result\app.exe"
+ls "build\windows"
 
 Write-Output 'Generated Windows exe installer!'
 
