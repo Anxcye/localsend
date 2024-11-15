@@ -1,4 +1,4 @@
-package com.example.localsend
+package com.example.anx_reader
 
 import io.flutter.embedding.android.FlutterActivity
 

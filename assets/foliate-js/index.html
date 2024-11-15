@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self' blob:; script-src 'self'; style-src 'self' blob: 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob: data: *; frame-src blob: data:; object-src blob: data:; form-action 'none';">
+<title>E-Book Reader</title>
+<style>
+  html {
+    height: 100%;
+  }
+
+  body {
+    margin: 0 auto;
+    height: 100%;
+    user-select: none;
+  }
+
+  #footnote-dialog {
+    padding: 0;
+    width: auto;
+    height: auto;
+    max-width: 80vw;
+    max-height: 80vh;
+    min-width: 200px;
+    min-height: 100px;
+    border-radius: 15px;
+    border: 2px solid grey;
+    user-select: none;
+  }
+
+  #footnote-dialog div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  #footnote-dialog main {
+    overflow: auto;
+    flex: 1;
+  }
+</style>
+<dialog id="footnote-dialog">
+  <div>
+    <main></main>
+  </div>
+</dialog>
+<script src="../foliate-js/vendor/pdfjs/pdf.js"></script>
+<script src="book.js" type="module"></script>
