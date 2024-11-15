@@ -89,6 +89,7 @@ jobs:
         shell: bash
 
       - name: Install winget
+        if: matrix.platform == 'windows'
         uses: Cyberboss/install-winget@v1
 
       - name: Build for Windows
