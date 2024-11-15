@@ -1,4 +1,4 @@
-winget install -e --id JRSoftware.InnoSetup
+winget install -e --id JRSoftware.InnoSetup --location "C:\Inno Setup 6"
 
 flutter clean
 flutter pub get
@@ -17,9 +17,9 @@ New-Item -ItemType Directory -Force -Path "D:\inno-result"
 7z a -tzip "D:\inno-result\app.zip" "D:\inno\*"
 
 
-Copy-Item "scripts\ChineseSimplified.isl" "$HOME\AppData\Local\Programs\Inno Setup 6\Languages\"
-Copy-Item "scripts\ChineseTraditional.isl" "$HOME\AppData\Local\Programs\Inno Setup 6\Languages\"
-& "$HOME\AppData\Local\Programs\Inno Setup 6\ISCC.exe" ".\scripts\compile_windows_setup-inno.iss"
+Copy-Item "scripts\ChineseSimplified.isl" "C:\Inno Setup 6\Languages\"
+Copy-Item "scripts\ChineseTraditional.isl" "C:\Inno Setup 6\Languages\"
+& "C:\Inno Setup 6\ISCC.exe" ".\scripts\compile_windows_setup-inno.iss"
 
 Copy-Item "D:\inno-result\app.exe" "build\windows\app.exe"
 Copy-Item "D:\inno-result\app.zip" "build\windows\app.zip"
