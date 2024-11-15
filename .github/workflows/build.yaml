@@ -25,6 +25,10 @@ jobs:
       - name: Get version from tag
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+      - name: Prepare for platform
+        if: matrix.platform == 'windows'
+        run: |
+          sed -i "1i #define MyAppVersion \"${{ env.VERSION }}\"" scripts/compile_windows_setup-inno.iss
         
       - name: Setup for Windows
         if: matrix.platform == 'windows'
