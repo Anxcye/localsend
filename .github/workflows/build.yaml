@@ -24,11 +24,14 @@ jobs:
 
       - name: Setup for Windows
         if: matrix.platform == 'windows'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: mingw64
-          install: mingw-w64-x86_64-gcc
-          update: true
+        # uses: msys2/setup-msys2@v2
+        # with:
+        #   msystem: mingw64
+        #   install: mingw-w64-x86_64-gcc
+        #   update: true
+        run: |
+          ./scripts/setup_windows.ps1
+        shell: pwsh  
 
       - name: Set Mingw64 Env
         if: matrix.platform == 'windows'
