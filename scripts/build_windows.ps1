@@ -5,6 +5,17 @@ winget install -e --id JRSoftware.InnoSetup --location $innoSetupDir --accept-so
 flutter clean
 flutter pub get
 flutter gen-l10n
+
+$cmakeListsPath = "flutter/ephemeral/.plugin_symlinks/flutter_tts/windows/CMakeLists.txt"
+if (Test-Path $cmakeListsPath) {
+    $cmakePolicy = "cmake_policy(SET CMP0153 NEW)"
+    $content = Get-Content $cmakeListsPath
+    if ($content -notcontains $cmakePolicy) {
+        $cmakePolicy | Add-Content -Path $cmakeListsPath -Force
+        Write-Output "Added CMP0153 policy to $cmakeListsPath"
+    }
+}
+
 flutter build windows
 
 Remove-Item "D:\inno" -Force  -Recurse -ErrorAction SilentlyContinue
