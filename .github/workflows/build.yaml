@@ -65,9 +65,11 @@ jobs:
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties    
           echo "storeFile=keystore.jks" >> android/key.properties
 
-      - name: Enable Windows build
+      - name: Prepare for platform
         if: matrix.platform == 'windows'
-        run: flutter config --enable-windows-desktop
+        run: |
+          flutter config --enable-windows-desktop
+          echo "\#define MyAppVersion \"${{ env.VERSION }}\"" > scripts/compile_windows_setup-inno.iss
         
     #   - name: Build for platform
     #     run: |
@@ -85,6 +87,9 @@ jobs:
             flutter build apk --release
             flutter build apk --split-per-abi
         shell: bash
+
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
 
       - name: Build for Windows
         if: matrix.platform == 'windows'

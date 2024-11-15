@@ -3,7 +3,6 @@
 ; Copy the contents of the zip to D:\inno, then run this Inno script
 ; Copy app/assets/packaging/logo-256.ico to D:\inno\logo-256.ico
 
-#define MyAppVersion "1.0.0"
 #define MyAppName "AnxReader"
 #define MyAppPublisher "Anxcye"
 #define MyAppURL "https://github.com/Anxcye/Anx-Reader"
