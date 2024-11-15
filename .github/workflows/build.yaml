@@ -69,15 +69,28 @@ jobs:
         if: matrix.platform == 'windows'
         run: flutter config --enable-windows-desktop
         
-      - name: Build for platform
+    #   - name: Build for platform
+    #     run: |
+    #       if [ "${{ matrix.platform }}" == "android" ]; then
+    #         flutter build apk --release
+    #         flutter build apk --split-per-abi
+    #       elif [ "${{ matrix.platform }}" == "windows" ]; then
+    #         ./scripts/build_windows.ps1
+    #       fi
+    #     shell: bash
+
+      - name: Build for Android
+        if: matrix.platform == 'android'
         run: |
-          if [ "${{ matrix.platform }}" == "android" ]; then
             flutter build apk --release
             flutter build apk --split-per-abi
-          elif [ "${{ matrix.platform }}" == "windows" ]; then
-            ./scripts/build_windows.ps1
-          fi
         shell: bash
+
+      - name: Build for Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: ./scripts/build_windows.ps1
+
 
       - name: Get version from tag
         id: get_version
