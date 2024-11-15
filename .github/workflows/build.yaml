@@ -21,15 +21,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install winget
-        if: matrix.platform == 'windows'
-        uses: Cyberboss/install-winget@v1
-        
-      - name: Build for Windows
-        if: matrix.platform == 'windows'
-        shell: pwsh
-        run: ./scripts/build_windows.ps1
         
       - name: Setup for Windows
         if: matrix.platform == 'windows'
