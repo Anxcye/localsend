@@ -1,9 +1,9 @@
-# winget install -e --id JRSoftware.InnoSetup
+winget install -e --id JRSoftware.InnoSetup
 
-# flutter clean
-# flutter pub get
-# flutter gen-l10n
-# flutter build windows
+flutter clean
+flutter pub get
+flutter gen-l10n
+flutter build windows
 
 Remove-Item "D:\inno" -Force  -Recurse -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force -Path "D:\inno"
