@@ -1,4 +1,4 @@
-winget install -e --id JRSoftware.InnoSetup --location "D:\Inno Setup 6"
+winget install -e --id JRSoftware.InnoSetup --location "D:\Inno Setup 6" --accept-source-agreements
 # list all installed packages
 winget list
 # list dir d:\inno setup 6
