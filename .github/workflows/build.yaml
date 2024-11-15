@@ -69,7 +69,7 @@ jobs:
         if: matrix.platform == 'windows'
         run: |
           flutter config --enable-windows-desktop
-          echo "\#define MyAppVersion \"${{ env.VERSION }}\"" > scripts/compile_windows_setup-inno.iss
+          echo "\#define MyAppVersion \"${{ env.VERSION }}\"" >> scripts/compile_windows_setup-inno.iss
         
     #   - name: Build for platform
     #     run: |
