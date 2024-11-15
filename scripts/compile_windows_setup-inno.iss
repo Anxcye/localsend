@@ -3,11 +3,12 @@
 ; Copy the contents of the zip to D:\inno, then run this Inno script
 ; Copy app/assets/packaging/logo-256.ico to D:\inno\logo-256.ico
 
+#define MyAppVersion "1.0.0"
 #define MyAppName "AnxReader"
 #define MyAppPublisher "Anxcye"
 #define MyAppURL "https://github.com/Anxcye/Anx-Reader"
-#define MyAppExeName "AnxReader.exe"
-#define MyAppId "{00809252-FEC6-448E-83B4-E7F55AE7E47D}"
+#define MyAppExeName "localsend.exe"
+#define MyAppId "{{32610E5D-B613-420A-B68F-A57E2102BCE3}}"
 
 
 [Setup]
@@ -27,13 +28,13 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=D:\inno-result
-OutputBaseFilename=AnxReaderSetup
+OutputBaseFilename=app
 SetupIconFile=D:\inno\logo.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
-SignTool=MySignTool
+; SignTool=MySignTool
 ArchitecturesInstallIn64BitMode=x64compatible
 ArchitecturesAllowed=x64compatible
 
@@ -43,6 +44,8 @@ Name: "armenian"; MessagesFile: "compiler:Languages\Armenian.isl"
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 Name: "bulgarian"; MessagesFile: "compiler:Languages\Bulgarian.isl"
 Name: "catalan"; MessagesFile: "compiler:Languages\Catalan.isl"
+Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+Name: "chinesetraditional"; MessagesFile: "compiler:Languages\ChineseTraditional.isl"
 Name: "corsican"; MessagesFile: "compiler:Languages\Corsican.isl"
 Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
 Name: "danish"; MessagesFile: "compiler:Languages\Danish.isl"

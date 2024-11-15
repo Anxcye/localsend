@@ -74,8 +74,8 @@ jobs:
           if [ "${{ matrix.platform }}" == "android" ]; then
             flutter build apk --release
             flutter build apk --split-per-abi
-          else
-            flutter build windows --release
+          elif [ "${{ matrix.platform }}" == "windows" ]; then
+            ./scripts/build_windows.ps1
           fi
         shell: bash
 
@@ -93,8 +93,10 @@ jobs:
             mv app-x86_64-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-x86_64.apk
             mv app-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-universal.apk
           else
-            cd windows/x64/runner/Release
-            7z a -tzip ../../../Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.zip ./*
+            mv build/windows/app.zip Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.zip
+            mv build/windows/app.exe Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.exe
+            
+
           fi
         shell: bash
 
@@ -112,7 +114,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/app/outputs/flutter-apk/Anx-Reader-${{ env.VERSION }}-*.apk
-            build/windows/Anx-Reader-${{ env.VERSION }}-windows.zip
+            build/app/outputs/flutter-apk/*.apk
+            build/windows/*.zip
+            build/windows/*.exe
           body: ${{ env.RELEASE_NOTES }}
           generate_release_notes: false
