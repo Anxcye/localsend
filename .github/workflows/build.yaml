@@ -22,15 +22,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install winget
+        if: matrix.platform == 'windows'
+        uses: Cyberboss/install-winget@v1
+        
+      - name: Build for Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: ./scripts/build_windows.ps1
+        
       - name: Setup for Windows
         if: matrix.platform == 'windows'
-        # uses: msys2/setup-msys2@v2
-        # with:
-        #   msystem: mingw64
-        #   install: mingw-w64-x86_64-gcc
-        #   update: true
-        shell: pwsh  
-        run: ./scripts/setup_windows.ps1
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          install: mingw-w64-x86_64-gcc
+          update: true
 
       - name: Set Mingw64 Env
         if: matrix.platform == 'windows'
