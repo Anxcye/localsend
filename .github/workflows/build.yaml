@@ -103,9 +103,8 @@ jobs:
             mv app-x86_64-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-x86_64.apk
             mv app-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-universal.apk
           elif [ "${{ matrix.platform }}" == "windows" ]; then
-            ls build/windows
-            mv build/windows/app.zip Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.zip
-            mv build/windows/app.exe Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.exe
+            mv windows/app.zip Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.zip
+            mv windows/app.exe Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.exe
             
 
           fi
