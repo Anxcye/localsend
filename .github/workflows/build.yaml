@@ -88,13 +88,13 @@ jobs:
           cd build
           if [ "${{ matrix.platform }}" == "android" ]; then
             cd app/outputs/flutter-apk
-            mv app-armeabi-v7a-release.apk Anx-Reader-${{ env.VERSION }}-armeabi-v7a.apk
-            mv app-arm64-v8a-release.apk Anx-Reader-${{ env.VERSION }}-arm64-v8a.apk
-            mv app-x86_64-release.apk Anx-Reader-${{ env.VERSION }}-x86_64.apk
-            mv app-release.apk Anx-Reader-${{ env.VERSION }}-universal.apk
+            mv app-armeabi-v7a-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-armeabi-v7a.apk
+            mv app-arm64-v8a-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-arm64-v8a.apk
+            mv app-x86_64-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-x86_64.apk
+            mv app-release.apk Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}-universal.apk
           else
             cd windows/x64/runner/Release
-            7z a -tzip ../../../Anx-Reader-${{ env.VERSION }}-windows.zip ./*
+            7z a -tzip ../../../Anx-Reader-${{ matrix.platform }}-${{ env.VERSION }}.zip ./*
           fi
         shell: bash
 

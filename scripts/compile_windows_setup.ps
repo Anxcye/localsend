@@ -1,0 +1,17 @@
+winget install -e --id JRSoftware.InnoSetup
+
+flutter clean
+flutter pub get
+flutter build windows
+
+Remove-Item "D:\inno" -Force  -Recurse -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force -Path "D:\inno"
+Copy-Item -Path "build\windows\x64\runner\Release\*" -Destination "D:\inno" -Recurse
+Copy-Item -Path "windows\runner\resources\app_icon.ico" -Destination "D:\inno\logo.ico"
+
+Copy-Item -Path "scripts\windows\x64\*" -Destination "D:\inno" -Recurse -ErrorAction SilentlyContinue
+Remove-Item "D:\inno-result" -Force  -Recurse -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force -Path "D:\inno-result"
+iscc .\scripts\compile_windows_setup-inno.iss
+
+Write-Output 'Generated Windows exe installer!'
