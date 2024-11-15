@@ -2,6 +2,12 @@ winget install -e --id JRSoftware.InnoSetup --location "D:\Inno Setup 6" --accep
 # list all installed packages
 winget list
 # list dir d:\inno setup 6
+if (Test-Path "C:\Program Files (x86)\Inno Setup 6") {
+    Write-Output "Inno Setup is installed in C:\Program Files (x86)\Inno Setup 6"
+} else {
+    Write-Output "Inno Setup is not found in the default directory."
+}
+
 ls "D:\Inno Setup 6"
 
 Copy-Item "scripts\ChineseSimplified.isl" "D:\Inno Setup 6\Languages\"
