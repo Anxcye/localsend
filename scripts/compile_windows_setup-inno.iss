@@ -6,7 +6,7 @@
 #define MyAppName "AnxReader"
 #define MyAppPublisher "Anxcye"
 #define MyAppURL "https://github.com/Anxcye/Anx-Reader"
-#define MyAppExeName "localsend.exe"
+#define MyAppExeName "anx_reader.exe"
 #define MyAppId "{{32610E5D-B613-420A-B68F-A57E2102BCE3}}"
 
 
