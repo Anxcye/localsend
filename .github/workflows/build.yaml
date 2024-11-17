@@ -24,10 +24,10 @@ jobs:
         with:
           ref: 'main'
 
-      - name: Get version from tag
+      - name: Get version from pubspec.yaml
         id: get_version
         shell: bash
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        run: echo "VERSION=$( grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | cut -d '+' -f 1 )" >> $GITHUB_ENV
         
       - name: Setup for Windows
         if: matrix.platform == 'windows'
