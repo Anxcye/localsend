@@ -122,9 +122,9 @@ jobs:
         shell: bash
       
       - name: upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          files: |
+          path: |
             build/app/outputs/flutter-apk/*.apk
             build/windows/*.zip
             build/windows/*.exe
