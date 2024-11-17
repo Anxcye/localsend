@@ -29,20 +29,25 @@ jobs:
         shell: bash
         run: echo "VERSION=$( grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | cut -d '+' -f 1 )" >> $GITHUB_ENV
         
-
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: '3.x'
+          flutter-version: '3.24.3'
 
-      - name: Get Flutter version
-        run: flutter --version
+      - name: Get Dependencies
+        run: |
+          flutter --version
+          flutter pub get
 
-
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Setup Java
+        if: matrix.platform == 'android'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+          check-latest: true
 
       - name: Setup Android signing
         if: matrix.platform == 'android'
