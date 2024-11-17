@@ -21,6 +21,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        ref: 'main'
 
       - name: Get version from tag
         id: get_version
@@ -118,13 +119,23 @@ jobs:
           echo "$CHANGELOG_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
         shell: bash
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      
+      - name: upload
+        uses: actions/upload-artifact@v2
         with:
           files: |
             build/app/outputs/flutter-apk/*.apk
             build/windows/*.zip
             build/windows/*.exe
-          body: ${{ env.RELEASE_NOTES }}
-          generate_release_notes: false
+
+
+
+      # - name: Create Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     files: |
+      #       build/app/outputs/flutter-apk/*.apk
+      #       build/windows/*.zip
+      #       build/windows/*.exe
+      #     body: ${{ env.RELEASE_NOTES }}
+      #     generate_release_notes: false
