@@ -49,9 +49,12 @@ jobs:
       #     cache: 'gradle'
       #     check-latest: true
 
-      - run: gcc -v
-        shell: bash
+      - shell: bash
         if: matrix.platform == 'windows'
+        run: |
+          gcc -v
+          ll "/C/Program Files (x86)/Windows Kits/10/Include"
+
       
       - name: Setup for Windows
         if: matrix.platform == 'windows'
