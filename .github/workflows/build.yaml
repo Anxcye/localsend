@@ -121,14 +121,15 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
         shell: bash
       
-      - name: upload
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
+          name: ${{ matrix.platform }}-artifacts
           path: |
             build/app/outputs/flutter-apk/*.apk
             build/windows/*.zip
             build/windows/*.exe
-
+          if-no-files-found: warn
 
 
       # - name: Create Release
