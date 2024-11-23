@@ -7,13 +7,13 @@ body:
   - type: checkboxes
     id: bug_report_is_crash
     attributes:
+      label: Prerequisites|前提条件
       description: |
         I have checked the [troubleshooting guide](https://github.com/Anxcye/anx-reader/blob/develop/docs/troubleshooting.md)
         我已经查看过[故障排除指南](https://github.com/Anxcye/anx-reader/blob/develop/docs/troubleshooting.md)
-      optionons:
+      options:
         - label: Checked the troubleshooting guide|我已经查看过故障排除指南
           required: true
-
   - type: textarea
     id: bug_report_description
     attributes:
