@@ -59,10 +59,14 @@ body:
     attributes:
       label: Platform (please complete the following information)|平台（请填写以下信息）
       value: |
-        - Platform: [e.g. Android] | 平台：[e.g. Android]
-        - OS: [e.g. Android13(MIUI14)] | 操作系统：[e.g. Android13(MIUI14)]
-        - AnxReader Version: [e.g. 1.2.0+2033] | 安读版本：[e.g. 1.2.0+2033]
-        - Device: [e.g. Xiaomi 13] | 设备：[e.g. Xiaomi 13]
+        - Platform: | 平台：
+          [e.g. Android]
+        - OS: | 操作系统：
+          [e.g. Android13(MIUI14)]
+        - AnxReader Version: | 安读版本：
+          [e.g. 1.2.0+2033]
+        - Device: | 设备：
+          [e.g. Xiaomi 13]
   - type: textarea
     id: bug_report_additional_context
     attributes:
