@@ -13,7 +13,6 @@ body:
         我已经查看过[故障排除指南](https://github.com/Anxcye/anx-reader/blob/develop/docs/troubleshooting.md)
       options:
         - label: Checked the troubleshooting guide|我已经查看过故障排除指南
-          required: true
   - type: textarea
     id: bug_report_description
     attributes:
